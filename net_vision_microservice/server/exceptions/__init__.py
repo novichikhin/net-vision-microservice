@@ -1,0 +1,1 @@
+from net_vision_microservice.server.exceptions.entry import EntryNotFound, DuplicateEntry
