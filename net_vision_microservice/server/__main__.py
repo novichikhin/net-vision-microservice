@@ -7,7 +7,7 @@ from net_vision_microservice.server.api.setup import register_app
 
 
 def run_application() -> None:
-    settings = types.Setting()
+    settings = types.Settings()
     app = register_app(settings)
 
     if platform == "linux":

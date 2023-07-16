@@ -12,14 +12,24 @@ from net_vision_microservice.server.core.event import lifespan
 from net_vision_microservice.server.database.factory import (
     sa_create_engine,
     sa_create_session_factory,
-    sa_create_holder
+    sa_create_holder,
+    sa_build_connection_uri
 )
 
 
-def register_app(settings: types.Setting) -> FastAPI:
+def register_app(settings: types.Settings) -> FastAPI:
     app = FastAPI(lifespan=lifespan)
 
-    engine = sa_create_engine(connection_uri=settings.database_uri)
+    engine = sa_create_engine(
+        connection_uri=sa_build_connection_uri(
+            driver=settings.pg_driver,
+            host=settings.pg_host,
+            port=settings.pg_port,
+            user=settings.pg_user,
+            password=settings.pg_password,
+            db=settings.pg_db
+        )
+    )
     session_factory = sa_create_session_factory(engine=engine)
 
     register_routers(app=app)
